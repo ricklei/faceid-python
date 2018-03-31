@@ -77,6 +77,8 @@ class WindowManager(object):
         self._windowName = windowName
         self._isWindowCreated = False
 
+        self._textBuffer = []
+
     @property
     def isWindowCreated(self):
         return self._isWindowCreated
@@ -90,7 +92,21 @@ class WindowManager(object):
         self._isWindowCreated = False
 
     def show(self, frame):
+        y = 30
+        for s in self._textBuffer:
+            cv2.putText(frame, s, (10, y), cv2.FONT_HERSHEY_SIMPLEX, 1, (255,255,255),2)
+            y += 30
         cv2.imshow(self._windowName, frame)
+
+    def appendText(self, text):
+        self._textBuffer.append(text)
+
+    def appendChar(self, ch):
+        if self._textBuffer.__len__() > 0:
+            self._textBuffer[-1] = self._textBuffer[-1] + ch
+        else:
+            self._textBuffer.append(ch)
+
 
     def processEvents(self):
         keycode = cv2.waitKey(1)

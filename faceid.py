@@ -13,6 +13,9 @@ class FaceID(object):
         self._captureManager = CaptureManager(self._camera, self._windowManager, True)
         self._faceDetector = FaceDetector()
 
+        self._windowManager.appendText('Hello!')
+        self._windowManager.appendText('')
+
     def run(self): # run the application
         self._windowManager.createWindow()
         while self._windowManager.isWindowCreated:
@@ -36,7 +39,8 @@ class FaceID(object):
         if keycode == 27: # escape
             self._windowManager.destroyWindow()
             self._camera.release()
-
+        elif chr(keycode).isalnum():
+            self._windowManager.appendChar(chr(keycode))
 
 if __name__ == "__main__":
     FaceID().run()
