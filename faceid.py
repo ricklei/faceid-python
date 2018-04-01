@@ -2,19 +2,15 @@ import cv2
 from managers import CaptureManager, WindowManager, PeopleManager
 from detector import FaceDetector
 
-class FaceID(object):
+class FaceID():
 
     def __init__(self):
-
         self._camera = cv2.VideoCapture(0)
         self._camera.set(cv2.CAP_PROP_FRAME_WIDTH, 1024)
         self._camera.set(cv2.CAP_PROP_FRAME_HEIGHT, 768)
         self._windowManager = WindowManager('Face ID', self.onKeypress)
         self._captureManager = CaptureManager(self._camera, self._windowManager, True)
         self._faceDetector = FaceDetector()
-
-        self._windowManager.appendText('Hello!')
-        self._windowManager.appendText('')
 
     def run(self): # run the application
         self._windowManager.createWindow()
