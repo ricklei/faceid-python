@@ -1,0 +1,7 @@
+# capture manager, camera
+capture.camera = 0
+capture.width = 1024
+capture.height = 768
+
+# data set
+dataset.dir = .\dataset
