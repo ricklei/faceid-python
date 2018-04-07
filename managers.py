@@ -1,6 +1,5 @@
 import cv2
 import numpy as np
-import sqlite3
 import time
 
 class CaptureManager(object):
@@ -68,6 +67,12 @@ class CaptureManager(object):
         self._frame = None
         self._enteredFrame = False
 
+    def addRect(self, rect, caption):
+        if self._frame is not None:
+            x, y, w, h = rect
+            cv2.rectangle(self._frame, (x, y), (x+w, y+h), (0,255,0), 3)
+            cv2.putText(self._frame, caption, (x+2, y+h-5), cv2.FONT_HERSHEY_SIMPLEX, 1, (150, 255, 0), 2)
+
 
 class WindowManager(object):
 
@@ -107,15 +112,8 @@ class WindowManager(object):
         else:
             self._textBuffer.append(ch)
 
-
     def processEvents(self):
         keycode = cv2.waitKey(1)
         if self.keypressCallback is not None and keycode != -1:
             keycode &= 0xFF
             self.keypressCallback(keycode)
-
-
-class PeopleManager(object):
-
-    def __init__(self):
-        self._conn = sqlite3.connect('people.db')

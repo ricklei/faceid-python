@@ -14,6 +14,7 @@ class FaceCapture(object):
     def __init__(self, name):
 
         self._configs = utils.loadConfigFile('facecapture.cf')
+        self._users = utils.loadConfigFile('names.cf')
 
         self._name = name
 
@@ -25,11 +26,14 @@ class FaceCapture(object):
         self._captureManager = CaptureManager(self._camera, self._windowManager, True)
         self._faceDetector = FaceDetector()
 
-        self._filePath = '{0}\\{1}'.format(self._configs['dataset.dir'], self._name)
+        self._filePath = '{0}'.format(self._configs['dataset.dir'])
 
         os.makedirs(self._filePath, exist_ok = True)
 
     def run(self):
+
+        if not self._name in self._users:
+            exit(1)
 
         self._windowManager.createWindow()
 
@@ -49,7 +53,7 @@ class FaceCapture(object):
                 face_image = cv2.cvtColor(face_image, cv2.COLOR_RGB2GRAY)
 
                 cv2.imshow('face', face_image)
-                cv2.imwrite('{0}\\{1}-{2}.jpg'.format(self._filePath, self._name, idx), face_image)
+                cv2.imwrite('{0}\\{1}-{2}.jpg'.format(self._filePath, self._users[self._name], idx), face_image)
                 idx += 1
 
                 time.sleep(0.1)
